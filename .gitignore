@@ -5,8 +5,6 @@ __pycache__/
 venv/
 .env
 .env.*
-data/
-visualize/
 ray_results/
 *.pt
 *.pth
@@ -14,3 +12,9 @@ ray_results/
 *.csv
 *.log
 .DS_Store
+
+!data/**/*.pt
+!data/**/*.pth
+!data/**/*.npz
+!data/**/*.csv
+!data/**/*.log
