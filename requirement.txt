@@ -1,0 +1,11 @@
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+torch
+torchmetrics
+tqdm
+POT
+ray[tune]
+jupyter
