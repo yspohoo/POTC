@@ -93,28 +93,16 @@ def UniformSample_pretrain(allPos, n_users, m_items, trainDataSize):
         np.array
     """
     total_start = time()
-    users = np.random.randint(0, n_users, trainDataSize)
     S = []
-    sample_time1 = 0.
-    sample_time2 = 0.
-    for i, user in enumerate(users):
-        start = time()
-        posForUser = allPos[user]
-        if len(posForUser) == 0:
-            continue
-        sample_time2 += time() - start
-        posindex = np.random.randint(0, len(posForUser))
-        positem = posForUser[posindex]
-        while True:
-            negitem = np.random.randint(0, m_items)
-            if negitem in posForUser:
-                continue
-            else:
-                break
-        S.append([user, positem, negitem])
-        end = time()
-        sample_time1 += end - start
-    total = time() - total_start
+    for user, positives in enumerate(allPos):
+        excluded = set(positives)
+        if len(excluded) >= m_items:
+            raise ValueError(f"User {user} has no unobserved training negatives")
+        for positive in positives:
+            negative = np.random.randint(0, m_items)
+            while negative in excluded:
+                negative = np.random.randint(0, m_items)
+            S.append([user, positive, negative])
     return np.array(S)
 
 def UniformSample_cdr(cdr_dataset, n_item):
